@@ -1,3 +1,5 @@
+# FOR PRODUCTION
+
 # intermediatory container for building for production
 FROM composer:1.7 as build
 

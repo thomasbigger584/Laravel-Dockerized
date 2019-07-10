@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  php-app-dev:
+    container_name: php-app-dev
+    build:
+      context: .
+      dockerfile: Dockerfile-Dev
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "9000:80"
