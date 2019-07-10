@@ -27,7 +27,8 @@ FROM webdevops/php-nginx:alpine
 COPY nginx.conf /opt/docker/etc/nginx/vhost.conf
 
 # copy the project through with www-data user owner permissions
-COPY --chown=www-data:www-data . /var/www/html
+COPY . /var/www/html
+RUN rm /var/www/html/bootstrap/cache/*
 
 # copy dependencies from build intermediatory container
 COPY --from=build  /app/vendor/ /var/www/html/vendor/
@@ -35,8 +36,7 @@ COPY --from=build  /app/vendor/ /var/www/html/vendor/
 # Read + Write + Execute
 RUN chmod 755 -R /var/www/html
 
-# set user to www data because we are hosting from its folder
-USER www-data
+RUN chown nginx:nginx -R /var/www/html 
 
 # set the working directory to be where the project is sitting
 WORKDIR /var/www/html
@@ -46,7 +46,11 @@ RUN if [ -f .env.example ] && [ ! -f .env ]; then \
 		cp .env.example .env; \
 	fi
 
+RUN sed -i.bak "s|APP_ENV=local|APP_ENV=production|g" .env
+
 # generate key thats to be set within .env and clear cache
 # wWithout this the page wont load
 RUN php artisan key:generate \
 	&& php artisan config:cache
+
+USER nginx
