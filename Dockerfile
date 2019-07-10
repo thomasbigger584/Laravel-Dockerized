@@ -21,7 +21,7 @@ RUN composer install \
     --optimize-autoloader
 
 # image with php and nginx
-FROM webdevops/php-nginx:7.3
+FROM webdevops/php-nginx:alpine
 
 # copy the nginx configuration through
 COPY nginx.conf /opt/docker/etc/nginx/vhost.conf
@@ -43,7 +43,7 @@ WORKDIR /var/www/html
 
 # rename the .env.example file to .env if it hasnt been already created, for next step
 RUN if [ -f .env.example ] && [ ! -f .env ]; then \
-		mv .env.example .env; \
+		cp .env.example .env; \
 	fi
 
 # generate key thats to be set within .env and clear cache

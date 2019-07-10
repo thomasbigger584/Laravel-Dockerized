@@ -1,7 +1,7 @@
 # FOR DEVELOPMENT
 
 # image with php and nginx
-FROM webdevops/php-nginx-dev:7.3
+FROM webdevops/php-nginx-dev:alpine
 
 WORKDIR /var/www/html
 
@@ -15,10 +15,7 @@ RUN rm -rf /var/cache/apk/*
 COPY nginx-dev.conf /opt/docker/etc/nginx/vhost.conf
 
 
-# Useful commands
-# 
-# mv .env.example .env
-# 
+## Useful commands
+# cp .env.example .env
 # composer install
-# php artisan key:generate
-# php artisan config:cache
+# php artisan key:generate && php artisan config:cache
