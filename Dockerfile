@@ -46,7 +46,8 @@ RUN if [ -f .env.example ] && [ ! -f .env ]; then \
 		cp .env.example .env; \
 	fi
 
-RUN sed -i.bak "s|APP_ENV=local|APP_ENV=production|g" .env
+RUN sed -i'' "s|APP_ENV=local|APP_ENV=production|g" .env \
+    && sed -i'' "s|APP_DEBUG=true|APP_DEBUG=false|g" .env
 
 # generate key thats to be set within .env and clear cache
 # wWithout this the page wont load
